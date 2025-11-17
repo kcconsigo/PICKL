@@ -1,0 +1,47 @@
+{
+  "name": "pickl",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A boilerplate project that integrates Playwright with Cucumber/Gherkin for BDD test automation",
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('test-results', {recursive: true, force: true})\"",
+    "test": "node scripts/run-test.ts",
+    "test:chromium": "cross-env BROWSER=chromium npm test",
+    "test:firefox": "cross-env BROWSER=firefox npm test",
+    "test:webkit": "cross-env BROWSER=webkit npm test",
+    "test:smoke": "cross-env TAGS=@smoke npm test",
+    "test:regression": "cross-env TAGS=@regression npm test",
+    "test:clean": "npm run clean && npm run test",
+    "report": "node scripts/generate-report.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "bdd",
+    "testing",
+    "automation",
+    "gherkin"
+  ],
+  "author": "Jed Aureus Gonzales",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.2.0",
+    "@playwright/test": "^1.56.1",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^24.10.1",
+    "cross-env": "^10.1.0",
+    "cucumber-html-reporter": "^7.2.0",
+    "debug": "^4.4.3",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "jiti": "^2.6.1",
+    "playwright": "^1.56.1",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4"
+  }
+}
