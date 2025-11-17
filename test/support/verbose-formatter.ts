@@ -104,6 +104,8 @@ class VerboseFormatter extends Formatter {
           }
 
           // Clear line and rewrite with final icon
+          // \r returns the cursor to the start of the line, and \x1b[K clears the line.
+          // This enables in-place updates of the step status in the terminal.
           this.log(`\r\x1b[K  ${icon} ${gherkinStep.text}\n`)
         }
       }
