@@ -188,7 +188,7 @@ if (existsSync(reportFile)) {
   htmlContent = htmlContent.replace('</head>', `${darkModeScript}</head>`)
 
   // Replace brand title with toggle button
-  const toggleButton = `<button id="darkModeToggle" onclick="toggleDarkMode()" style="padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; border: 1px solid #ddd; background-color: transparent;">🌙 Dark</button>`
+  const toggleButton = `<button id="darkModeToggle" onclick="toggleDarkMode()" style="padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; border: 1px solid #ddd; background-color: transparent;">🌙 Switch to Dark mode</button>`
   htmlContent = htmlContent.replace('PICKL Test Results', toggleButton)
 
   writeFileSync(reportFile, htmlContent, 'utf8')
