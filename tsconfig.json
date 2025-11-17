@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    /* Modules */
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+
+    /* Type Roots */
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["node"],
+
+    /* Emit */
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Completeness */
+    "skipLibCheck": true
+  },
+  "include": ["test/**/*", "pages/**/*", "fixtures/**/*", "scripts/**/*", "types/**/*", "*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
