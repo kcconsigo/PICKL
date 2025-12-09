@@ -16,6 +16,7 @@
     "report": "node scripts/generate-report.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "verify:hooks": "sh scripts/verify-hooks.sh",
     "prepare": "husky"
   },
   "keywords": [

@@ -1044,6 +1044,42 @@ $ git commit -m "feat: my changes"
 git commit --no-verify -m "emergency fix"
 ```
 
+**Verifying hook installation:**
+
+After cloning the repository and running `npm install`, verify that git hooks are properly installed:
+
+```bash
+# Check if hooks are installed and configured correctly
+npm run verify:hooks
+
+# Expected output:
+# 🎉 All git hooks are properly installed and configured!
+#
+# 📚 Hook Summary:
+#    • pre-commit: Prevents commits to main/master, runs lint-staged
+#    • commit-msg: Enforces Conventional Commits format
+```
+
+The `verify:hooks` script checks:
+
+- ✅ `.husky` directory exists
+- ✅ `pre-commit` hook exists with branch protection and lint-staged
+- ✅ `commit-msg` hook exists with Conventional Commits validation
+- ✅ `lint-staged` configuration is present in `package.json`
+
+**Troubleshooting hooks:**
+
+If hooks aren't working:
+
+```bash
+# Reinstall hooks
+rm -rf .husky
+npm install
+
+# Verify installation
+npm run verify:hooks
+```
+
 ### Code Review Checklist
 
 When reviewing code, check for:
