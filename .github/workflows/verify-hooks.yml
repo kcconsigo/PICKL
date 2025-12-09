@@ -84,11 +84,10 @@ jobs:
           fi
           echo "✅ lint-staged configuration exists"
 
-          # Verify lint-staged has proper file patterns
-          if ! grep -q '"\*\.\{js,ts\}"' package.json; then
+          # Verify lint-staged has JS/TS file patterns
+          if ! grep -q '"*.{js,ts}"' package.json; then
             echo "⚠️  Warning: Expected lint-staged pattern for JS/TS files not found"
           fi
-
           echo "🎉 lint-staged configuration verified!"
 
       - name: Test pre-commit hook (dry run)
