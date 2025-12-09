@@ -98,6 +98,10 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
+          # Normalize line endings in hook files for Unix environments
+          # This prevents "command not found" errors from CRLF line endings
+          sed -i 's/\r$//' .husky/pre-commit .husky/commit-msg
+
           # Create a test file
           echo "// test file" > test-hook-verification.js
           git add test-hook-verification.js
