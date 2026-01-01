@@ -25,9 +25,10 @@ jobs:
         run: |
           # Get code owners from CODEOWNERS file dynamically
           if [ -f ".github/CODEOWNERS" ]; then
-            # Extract unique GitHub usernames from CODEOWNERS file
-            # Remove @ prefix, comments, and duplicates
-            CODE_OWNERS=$(grep -o '@[a-zA-Z0-9_-]*' .github/CODEOWNERS | sed 's/@//' | sort -u)
+            # Extract individual GitHub usernames (not teams)
+            # Pattern: @username (alphanumerics and hyphens, no teams like @org/team)
+            # GitHub usernames: start with alphanumeric, can contain hyphens
+            CODE_OWNERS=$(grep -oE '@[a-zA-Z0-9][a-zA-Z0-9-]*' .github/CODEOWNERS | grep -v '/' | sed 's/@//' | sort -u)
           else
             # Fallback if CODEOWNERS doesn't exist
             CODE_OWNERS=""
