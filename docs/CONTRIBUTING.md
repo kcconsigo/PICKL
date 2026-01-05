@@ -1168,8 +1168,11 @@ npm run test:coverage
 # Check if coverage meets thresholds
 npm run coverage:check
 
-# View HTML coverage report
-open coverage/index.html
+# View HTML coverage report (platform-specific)
+open coverage/index.html              # macOS
+xdg-open coverage/index.html          # Linux
+start coverage/index.html             # Windows (Powershell or cmd)
+# Or open coverage/index.html manually in your browser
 ```
 
 **Full Quality Check:**
