@@ -2,7 +2,11 @@ import eslint from '@eslint/js'
 import prettierConfig from 'eslint-config-prettier'
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+// Constants for file patterns to ensure consistency
+const TS_FILES = ['**/*.ts']
+const TS_IGNORES = ['*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts']
+
+export default [
   // Base ESLint recommended rules
   eslint.configs.recommended,
 
@@ -12,11 +16,22 @@ export default tseslint.config(
   // Prettier config to disable conflicting rules
   prettierConfig,
 
-  // TypeScript files WITH type checking (excluding config files)
+  // TypeScript files WITH type checking
+  ...tseslint.configs.recommendedTypeChecked.map(config => ({
+    ...config,
+    files: TS_FILES,
+    ignores: TS_IGNORES,
+  })),
+  ...tseslint.configs.stylisticTypeChecked.map(config => ({
+    ...config,
+    files: TS_FILES,
+    ignores: TS_IGNORES,
+  })),
+
+  // Custom rules for TypeScript files
   {
-    files: ['**/*.ts'],
-    ignores: ['eslint.config.ts', '*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts'],
-    extends: [...tseslint.configs.recommendedTypeChecked, ...tseslint.configs.stylisticTypeChecked],
+    files: TS_FILES,
+    ignores: TS_IGNORES,
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
@@ -92,6 +107,7 @@ export default tseslint.config(
       'dist/**',
       '*.js',
       '*.mjs',
+      'coverage/**',
       'allure-results/**',
       'allure-report/**',
       'test-results/**',
@@ -99,4 +115,4 @@ export default tseslint.config(
       'package-lock.json',
     ],
   },
-)
+]

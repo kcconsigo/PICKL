@@ -5,8 +5,8 @@
     "lib": ["ES2022"],
 
     /* Modules */
-    "module": "ES2022",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
 
     /* Type Roots */
@@ -36,6 +36,14 @@
     /* Completeness */
     "skipLibCheck": true
   },
-  "include": ["test/**/*", "pages/**/*", "fixtures/**/*", "scripts/**/*", "types/**/*", "*.ts"],
+  "include": [
+    "test/**/*",
+    "pages/**/*",
+    "fixtures/**/*",
+    "scripts/**/*",
+    "types/**/*",
+    "*.ts",
+    "eslint.config.js"
+  ],
   "exclude": ["node_modules", "dist"]
 }
