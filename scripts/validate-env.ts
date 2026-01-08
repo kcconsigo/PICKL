@@ -167,9 +167,9 @@ function validateEnvironment(): void {
 
   checkEnvFileExists()
 
-  const gitignoreResult = checkGitignore()
-  hasErrors = gitignoreResult.hasError
-  hasWarnings = gitignoreResult.hasWarning
+  const { hasError, hasWarning } = checkGitignore()
+  hasErrors = hasError
+  hasWarnings = hasWarning
 
   if (checkEnvExample()) {
     hasErrors = true
