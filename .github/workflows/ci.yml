@@ -283,7 +283,7 @@ jobs:
                   .names += [$scenario.name]
                 end
               else . end
-            ) | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t(.names | join("\n  - "))"
+            ) | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t\(.names | join("\n  - "))"
           ' test-results/cucumber-report.json)
 
           # Extract values from tab-separated output
