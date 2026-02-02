@@ -190,6 +190,8 @@ Organizations using BDD report:
 - **60% improvement in collaboration** between dev and QA[^4]
 - **Significantly higher confidence** in releases[^5]
 
+> These metrics are based on the referenced case studies and surveys and are not guaranteed outcomes. Actual results will vary depending on team size, project complexity, and organizational context.
+
 **Common adoption pattern:**
 
 1. **Start small** - One team, one feature
