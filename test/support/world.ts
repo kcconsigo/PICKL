@@ -79,5 +79,21 @@ export class CustomWorld extends World implements ICustomWorld {
   }
 }
 
-// Register CustomWorld as the World constructor for Cucumber
-setWorldConstructor(CustomWorld)
+/**
+ * Register CustomWorld as the World constructor for Cucumber.
+ *
+ * This follows the standard Cucumber pattern of calling setWorldConstructor() at module load time.
+ * Cucumber imports this file once during test execution as configured in cucumber.js.
+ *
+ * IMPORTANT: Do not import this file directly in test files. Use the ICustomWorld interface
+ * for typing instead. The global flag ensures registration happens only once, even if this
+ * module is loaded multiple times through different import paths.
+ */
+declare global {
+  var __CUCUMBER_CUSTOM_WORLD_REGISTERED__: boolean | undefined
+}
+
+if (!globalThis.__CUCUMBER_CUSTOM_WORLD_REGISTERED__) {
+  setWorldConstructor(CustomWorld)
+  globalThis.__CUCUMBER_CUSTOM_WORLD_REGISTERED__ = true
+}

@@ -62,6 +62,7 @@ export function getPageObject<T>(world: ICustomWorld, PageClass: new (page: Page
 /**
  * Typed wrapper for Cucumber's Given step definition.
  * Automatically types `this` as ICustomWorld, eliminating the need for explicit typing.
+ * Uses a generic type parameter to enable TypeScript's type inference for step parameters.
  *
  * @param pattern - The Gherkin step pattern (string or regex)
  * @param implementation - The step implementation function with typed `this` context
@@ -71,16 +72,21 @@ export function getPageObject<T>(world: ICustomWorld, PageClass: new (page: Page
  * // Before: Had to explicitly type `this`
  * Given('I am on the login page', async function (this: ICustomWorld) { ... })
  *
- * // After: `this` is automatically typed
+ * // After: `this` is automatically typed and parameters are inferred
  * Given('I am on the login page', async function () {
- *   const loginPage = getPageObject(this, LoginPage)
+ *   const loginPage = this.getPageObject(LoginPage)
  *   await loginPage.goto()
+ * })
+ *
+ * // With parameters - TypeScript infers the types
+ * Given('I enter {string}', async function (text: string) {
+ *   // TypeScript knows 'text' is a string and validates its usage
  * })
  * ```
  */
-export function Given(
+export function Given<Args extends unknown[]>(
   pattern: string | RegExp,
-  implementation: (this: ICustomWorld, ...args: any[]) => Promise<void>,
+  implementation: (this: ICustomWorld, ...args: Args) => Promise<void>,
 ): void {
   CucumberGiven(pattern, implementation)
 }
@@ -88,6 +94,7 @@ export function Given(
 /**
  * Typed wrapper for Cucumber's When step definition.
  * Automatically types `this` as ICustomWorld, eliminating the need for explicit typing.
+ * Uses a generic type parameter to enable TypeScript's type inference for step parameters.
  *
  * @param pattern - The Gherkin step pattern (string or regex)
  * @param implementation - The step implementation function with typed `this` context
@@ -97,16 +104,16 @@ export function Given(
  * // Before: Had to explicitly type `this`
  * When('I enter username {string}', async function (this: ICustomWorld, username: string) { ... })
  *
- * // After: `this` is automatically typed
+ * // After: `this` is automatically typed and parameters are inferred
  * When('I enter username {string}', async function (username: string) {
- *   const loginPage = getPageObject(this, LoginPage)
+ *   const loginPage = this.getPageObject(LoginPage)
  *   await loginPage.enterUsername(username)
  * })
  * ```
  */
-export function When(
+export function When<Args extends unknown[]>(
   pattern: string | RegExp,
-  implementation: (this: ICustomWorld, ...args: any[]) => Promise<void>,
+  implementation: (this: ICustomWorld, ...args: Args) => Promise<void>,
 ): void {
   CucumberWhen(pattern, implementation)
 }
@@ -114,6 +121,7 @@ export function When(
 /**
  * Typed wrapper for Cucumber's Then step definition.
  * Automatically types `this` as ICustomWorld, eliminating the need for explicit typing.
+ * Uses a generic type parameter to enable TypeScript's type inference for step parameters.
  *
  * @param pattern - The Gherkin step pattern (string or regex)
  * @param implementation - The step implementation function with typed `this` context
@@ -123,17 +131,17 @@ export function When(
  * // Before: Had to explicitly type `this`
  * Then('I should see a message {string}', async function (this: ICustomWorld, message: string) { ... })
  *
- * // After: `this` is automatically typed
+ * // After: `this` is automatically typed and parameters are inferred
  * Then('I should see a message {string}', async function (message: string) {
- *   const loginPage = getPageObject(this, LoginPage)
+ *   const loginPage = this.getPageObject(LoginPage)
  *   const flashMessage = await loginPage.getFlashMessage()
  *   expect(flashMessage).toContain(message)
  * })
  * ```
  */
-export function Then(
+export function Then<Args extends unknown[]>(
   pattern: string | RegExp,
-  implementation: (this: ICustomWorld, ...args: any[]) => Promise<void>,
+  implementation: (this: ICustomWorld, ...args: Args) => Promise<void>,
 ): void {
   CucumberThen(pattern, implementation)
 }
