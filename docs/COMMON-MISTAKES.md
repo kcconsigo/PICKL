@@ -162,31 +162,33 @@ Given('I am on the login page', async function (this: ICustomWorld) {
 })
 ```
 
-**✅ Best: Use `getPageObject()` helper (Issue #123):**
+**✅ Best: Use `this.getPageObject()` instance method:**
 
 ```typescript
-import { getPageObject } from '../support/step-helpers.js'
+import { Given } from '../support/step-helpers.js'
 
-Given('I am on the login page', async function (this: ICustomWorld) {
-  const loginPage = getPageObject(this, LoginPage)
+Given('I am on the login page', async function () {
+  const loginPage = this.getPageObject(LoginPage)
   await loginPage.goto()
 })
 ```
 
 **Why this is best:**
 
-- ✅ Eliminates boilerplate (reduces 9 lines to 3 lines)
+- ✅ Eliminates boilerplate (reduces 9 lines to 2 lines)
+- ✅ No need for explicit `this: ICustomWorld` typing
+- ✅ No need to pass `this` as a parameter
 - ✅ Type-safe page object instantiation
 - ✅ Clear error messages if page is not initialized
 - ✅ Consistent pattern across all step definitions
 
-**Alternative: Use `getPage()` for direct page access:**
+**Alternative: Use `this.getPage()` for direct page access:**
 
 ```typescript
-import { getPage } from '../support/step-helpers.js'
+import { When } from '../support/step-helpers.js'
 
-When('I wait {int} milliseconds', async function (this: ICustomWorld, ms: number) {
-  const page = getPage(this)
+When('I wait {int} milliseconds', async function (ms: number) {
+  const page = this.getPage()
   await page.waitForTimeout(ms)
 })
 ```
@@ -213,8 +215,10 @@ Given('I am on the login page', async function (this: ICustomWorld) {
 **✅ Correct:**
 
 ```typescript
-Given('I am on the login page', async function (this: ICustomWorld) {
-  const loginPage = getPageObject(this, LoginPage) // Create fresh instance
+import { Given } from '../support/step-helpers.js'
+
+Given('I am on the login page', async function () {
+  const loginPage = this.getPageObject(LoginPage) // Create fresh instance
   await loginPage.goto()
 })
 ```

@@ -90,10 +90,10 @@ export class CustomWorld extends World implements ICustomWorld {
  * module is loaded multiple times through different import paths.
  */
 declare global {
-  var __CUCUMBER_CUSTOM_WORLD_REGISTERED__: boolean | undefined
+  var _cucumberCustomWorldRegistered: boolean | undefined
 }
 
-if (!globalThis.__CUCUMBER_CUSTOM_WORLD_REGISTERED__) {
+if (!globalThis._cucumberCustomWorldRegistered) {
   setWorldConstructor(CustomWorld)
-  globalThis.__CUCUMBER_CUSTOM_WORLD_REGISTERED__ = true
+  globalThis._cucumberCustomWorldRegistered = true
 }
