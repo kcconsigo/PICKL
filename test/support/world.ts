@@ -16,10 +16,17 @@ export interface ICustomWorld extends World {
   getPageObject<T>(PageClass: new (page: Page) => T): T
 
   /** Scenario-scoped data session */
-  dataSession: Map<string, unknown>
+  sessionData: Map<string, unknown>
 
   // Convenience helpers
+  /**
+   * Pass arguments with key string and any data type value when calling the setData
+   */
   setData<T = unknown>(key: string, value: T): void
+  /**
+   * Pass arguments with string name of the sessionData variable that where already stored
+   *
+   */
   getData<T = unknown>(key: string): T | undefined
   hasData(key: string): boolean
   clearData(): void
@@ -37,7 +44,7 @@ export class CustomWorld extends World implements ICustomWorld {
   context?: BrowserContext
 
   /** One fresh storing of data per scenario. Though, this is freshly created every scenario run.*/
-  dataSession = new Map<string, unknown>()
+  sessionData = new Map<string, unknown>()
 
   /**
    * Creates a new CustomWorld instance for a Cucumber scenario.
@@ -94,28 +101,28 @@ export class CustomWorld extends World implements ICustomWorld {
    * This will store your data in session during run.
    */
   setData<T = unknown>(key: string, value: T): void {
-    this.dataSession.set(key, value)
+    this.sessionData.set(key, value)
   }
 
   /**
    * This will retrieve the data saved during session run.
    */
   getData<T = unknown>(key: string): T | undefined {
-    return this.dataSession.get(key) as T | undefined
+    return this.sessionData.get(key) as T | undefined
   }
 
   /**
    * This checks if the data is the session run.
    */
   hasData(key: string): boolean {
-    return this.dataSession.has(key)
+    return this.sessionData.has(key)
   }
 
   /**
    * This clears all data in session. This can also be used mid-scenario.
    */
   clearData(): void {
-    this.dataSession.clear()
+    this.sessionData.clear()
   }
 }
 
