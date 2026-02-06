@@ -15,18 +15,11 @@ export interface ICustomWorld extends World {
   /** Get a page object instance with automatic page injection */
   getPageObject<T>(PageClass: new (page: Page) => T): T
 
-  /** Scenario-scoped data session */
+  /** Scenario-scoped data session. Automatically cleared between scenarios. */
   sessionData: Map<string, unknown>
 
-  // Convenience helpers
-  /**
-   * Pass arguments with key string and any data type value when calling the setData
-   */
+  // Session data convenience methods
   setData<T = unknown>(key: string, value: T): void
-  /**
-   * Pass arguments with string name of the sessionData variable that where already stored
-   *
-   */
   getData<T = unknown>(key: string): T | undefined
   hasData(key: string): boolean
   clearData(): void
@@ -43,7 +36,10 @@ export class CustomWorld extends World implements ICustomWorld {
   /** Playwright BrowserContext for managing browser state and cookies */
   context?: BrowserContext
 
-  /** One fresh storing of data per scenario. Though, this is freshly created every scenario run.*/
+  /**
+   * Scenario-scoped data storage. Automatically cleared between scenarios
+   * as each scenario receives a fresh World instance.
+   */
   sessionData = new Map<string, unknown>()
 
   /**
@@ -98,28 +94,83 @@ export class CustomWorld extends World implements ICustomWorld {
   }
 
   /**
-   * This will store your data in session during run.
+   * Stores data in the scenario-scoped session for sharing between steps.
+   * Data is automatically cleared when the scenario ends.
+   *
+   * @param key - Unique identifier for the stored value
+   * @param value - The data to store (can be any type)
+   *
+   * @example
+   * ```typescript
+   * // Store user credentials
+   * Given('I create user {string}', async function (username: string) {
+   *   const userId = await createUser(username)
+   *   this.setData('username', username)
+   *   this.setData('userId', userId)
+   * })
+   *
+   * // Use in another step
+   * Then('I verify the user was created', async function () {
+   *   const userId = this.getData<number>('userId')
+   *   const user = await getUser(userId)
+   *   expect(user).toBeDefined()
+   * })
+   * ```
    */
   setData<T = unknown>(key: string, value: T): void {
     this.sessionData.set(key, value)
   }
 
   /**
-   * This will retrieve the data saved during session run.
+   * Retrieves data from the scenario-scoped session.
+   * Returns undefined if the key doesn't exist.
+   *
+   * @param key - The identifier of the stored value
+   * @returns The stored value cast to type T, or undefined if not found
+   *
+   * @example
+   * ```typescript
+   * When('I use the saved username', async function () {
+   *   const username = this.getData<string>('username')
+   *   if (username) {
+   *     await loginPage.enterUsername(username)
+   *   }
+   * })
+   * ```
    */
   getData<T = unknown>(key: string): T | undefined {
     return this.sessionData.get(key) as T | undefined
   }
 
   /**
-   * This checks if the data is the session run.
+   * Checks if a key exists in the scenario-scoped session.
+   *
+   * @param key - The identifier to check
+   * @returns True if the key exists, false otherwise
+   *
+   * @example
+   * ```typescript
+   * Then('the user ID should be stored', async function () {
+   *   expect(this.hasData('userId')).toBe(true)
+   * })
+   * ```
    */
   hasData(key: string): boolean {
     return this.sessionData.has(key)
   }
 
   /**
-   * This clears all data in session. This can also be used mid-scenario.
+   * Clears all data from the scenario-scoped session.
+   *
+   * Note: Session data is automatically cleared between scenarios.
+   * Use this method only if you need to clear data mid-scenario.
+   *
+   * @example
+   * ```typescript
+   * Given('I reset the session data', async function () {
+   *   this.clearData()
+   * })
+   * ```
    */
   clearData(): void {
     this.sessionData.clear()
